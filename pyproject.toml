@@ -1,0 +1,19 @@
+
+[project]
+name = "atm-forecaster"
+version = "0.1.0"
+description = "Daily cash forecasting for ATM route with holidays and self-evaluation."
+authors = [{ name = "Conrad Storz" }]
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "numpy",
+    "scikit-learn",
+    "typer[all]",
+    "loguru",
+    "pydantic>=2.0.0",
+    "joblib",
+]
+
+[project.scripts]
+atm-forecaster = "atm_forecaster.cli:app"

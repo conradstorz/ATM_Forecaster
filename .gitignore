@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Environment
+.env
+.venv/
+venv/
+ENV/
+
+# Data, models, outputs
+/data/
+/logs/
+/models/
+/outputs/
+/memory/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+*.log
+*.sqlite3
+*.db
+
+# Ignore test coverage and reports
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+
+# Ignore pip wheel
+*.whl
+
+# Ignore build
+build/
+dist/
+*.egg-info/
