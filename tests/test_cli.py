@@ -17,15 +17,26 @@ def test_train_command(monkeypatch):
 def test_forecast_command(monkeypatch):
     monkeypatch.setattr("forecaster.cli._setup_logging", lambda: None)
     monkeypatch.setattr("forecaster.cli.load_config", lambda path=None: object())
+    import pandas as pd
     class DummyDF:
         empty = False
         def to_csv(self, output, index): pass
         def __len__(self): return 5
+        def pivot(self, index, columns, values):
+            # Return a DataFrame with the expected columns
+            data = {
+                "atm_id": ["ATM1", "ATM2"],
+                "prediction_7": [1000, 2000],
+                "prediction_14": [1500, 2500],
+                "prediction_21": [1800, 2800],
+                "prediction_28": [2100, 3100],
+            }
+            return pd.DataFrame(data)
     monkeypatch.setattr("forecaster.cli.forecast_all_atms", lambda config, as_of_date=None: DummyDF())
     monkeypatch.setattr("forecaster.cli.append_predictions_to_history", lambda preds, config: None)
     result = runner.invoke(app, ["forecast"])
     assert result.exit_code == 0
-    assert "Wrote 5 predictions" in result.output
+    assert "Wrote 2 ATM forecasts" in result.output
     assert "Appended predictions to history." in result.output
 
 
