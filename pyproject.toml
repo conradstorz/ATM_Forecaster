@@ -1,19 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
-name = "atm-forecaster"
+name = "forecaster"
 version = "0.1.0"
-description = "Daily cash forecasting for ATM route with holidays and self-evaluation."
+description = "Daily cash forecasting for an ATM route with holidays, events, and self-evaluation."
 authors = [{ name = "Conrad Storz" }]
+readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "pandas",
     "numpy",
     "scikit-learn",
-    "typer[all]",
+    "typer",
     "loguru",
     "pydantic>=2.0.0",
     "joblib",
+    "pytest",
 ]
 
 [project.scripts]
-atm-forecaster = "atm_forecaster.cli:app"
+forecaster = "forecaster.cli:app"

@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class AppConfig(BaseModel):
@@ -18,8 +18,7 @@ class AppConfig(BaseModel):
     metrics_path: Path = Path("memory/metrics.json")
     horizons: List[int] = [7, 14, 21, 28]
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 def load_config(path: Optional[Path] = None) -> AppConfig:

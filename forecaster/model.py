@@ -138,7 +138,9 @@ def forecast_for_atm(
     else:
         as_of = pd.to_datetime(as_of_date)
 
-    future_dates = _future_dates(as_of, config.horizons)
+    # Generate all future dates up to the max horizon
+    max_horizon = max(config.horizons)
+    future_dates = [as_of + timedelta(days=d) for d in range(1, max_horizon + 1)]
     future_df = pd.DataFrame({
         "atm_id": atm_id,
         "Location": df_atm["Location"].iloc[-1],
@@ -148,17 +150,17 @@ def forecast_for_atm(
     X_future = future_df[FEATURE_COLUMNS].values
     preds = model.predict(X_future)
 
-    # Build a tidy output with horizon days
+    # For each horizon, sum the predictions for the next N days
     records = []
-    for d, y_hat in zip(future_df["date"], preds):
-        delta_days = (d - as_of).days
-        if delta_days in config.horizons:
-            records.append({
-                "atm_id": atm_id,
-                "date": d.normalize(),
-                "horizon_days": int(delta_days),
-                "prediction": float(y_hat),
-            })
+    for h in sorted(config.horizons):
+        horizon_dates = future_df["date"][:h]
+        horizon_sum = float(np.sum(preds[:h]))
+        records.append({
+            "atm_id": atm_id,
+            "date": horizon_dates.iloc[-1].normalize(),
+            "horizon_days": int(h),
+            "prediction": horizon_sum,
+        })
     result = pd.DataFrame.from_records(records)
     return result.sort_values(["horizon_days", "date"]).reset_index(drop=True)
 

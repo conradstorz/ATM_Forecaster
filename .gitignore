@@ -20,7 +20,7 @@ ENV/
 # Data, models, outputs
 /data/
 /logs/
-/models/
+# /models/ This should not have any personal data, so it's not ignored
 /outputs/
 /memory/
 

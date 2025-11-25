@@ -17,25 +17,29 @@ and self-evaluating prediction history.
 
 ## Basic usage with uv
 
+From the project root (where `pyproject.toml` lives):
+
 ```bash
-# from the atm_forecaster project directory
+# 1) Create/refresh the environment, install dependencies AND this package
 uv sync
 
-# Train models for all ATMs with at least 30 days of data
-uv run atm-forecaster train --min-points 30
+# 2) Train models for all ATMs with at least 30 days of data
+uv run -- atm-forecaster train --min-points 30
 
-# Forecast 7/14/21/28 days ahead for all ATMs
-uv run atm-forecaster forecast
+# 3) Forecast 7/14/21/28 days ahead for all ATMs
+uv run -- atm-forecaster forecast
 
-# Forecast only for a single ATM
-uv run atm-forecaster forecast --atm-id NW35983
+# 4) Forecast only for a single ATM
+uv run -- atm-forecaster forecast --atm-id NW35983
 
-# After new actuals exist for forecasted dates, evaluate accuracy
-uv run atm-forecaster evaluate
+# 5) After new actuals exist for forecasted dates, evaluate accuracy
+uv run -- atm-forecaster evaluate
 
-# Show the current metrics JSON in a readable form
-uv run atm-forecaster show-metrics
-```
+# 6) Show the current metrics JSON in a readable form
+uv run -- atm-forecaster show-metrics
+
+## Basic usage with uv
+
 
 You can customize paths and horizons by writing a JSON config file containing
 an `AppConfig` dump and passing `--config-path` to the CLI commands.
