@@ -34,7 +34,10 @@ def test_forecast_command(monkeypatch):
             return pd.DataFrame(data)
     monkeypatch.setattr("forecaster.cli.forecast_all_atms", lambda config, as_of_date=None: DummyDF())
     monkeypatch.setattr("forecaster.cli.append_predictions_to_history", lambda preds, config: None)
-    result = runner.invoke(app, ["forecast"])
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmpdir:
+        dummy_output = f"{tmpdir}/dummy.csv"
+        result = runner.invoke(app, ["forecast", "--output", dummy_output])
     assert result.exit_code == 0
     assert "Wrote 2 ATM forecasts" in result.output
     assert "Appended predictions to history." in result.output
